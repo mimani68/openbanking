@@ -8,11 +8,11 @@ By implementing can find that
 
 ![](https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/k-g-g1296-fintech.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=f079a436e5bfb3fad425248c6cfb135a)
 
-## About
+## ✒️ About
 
 Current initiative engine would be an ingredient of massive economy of financial and credential service dedicated to empower institution and aid all fast growing startup by helping them to use in daily trading and banking affairs.
 
-## Feautrues
+## 🔭 Features
 
 * Framework agonistic
 * Emphesiz on POST-OOP paradigm in programing
@@ -23,7 +23,7 @@ Current initiative engine would be an ingredient of massive economy of financial
 * Fastest way to develop business-friendly fintech
 * Truly inspired by real-world example and a decade experience in fintech
 
-## Services
+## 🏷️ Services
 
 ### 1 - Payment
 
@@ -87,7 +87,20 @@ Current initiative engine would be an ingredient of massive economy of financial
 
 * 3rd parties
 
+## 📚 Documentation
 
-## Reference
+
+## 🗺️ Community Meetings 
+
+
+## 💰 Adopters
+
+Our website has real-world use cases of organizations across industries that are deploying/migrating to Kubernetes.
+
+## Governance 
+
+## 🔮 Roadmap
+
+## 💡 Reference
 
 * [open banking uk v3.1.10](https://openbankinguk.github.io/read-write-api-site3/v3.1.10/resources-and-data-models/pisp/domestic-payments.html)
