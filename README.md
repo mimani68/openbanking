@@ -51,11 +51,35 @@ Current initiative engine would be an ingredient of massive economy of financial
 
 ### 2 - Withdraw
 
+#### 2.1 - Operations
+
+* settlement order
+* schedual settlement
+* manage withdraw operation
+
+#### 2.2 - Policy
+
+* list of all policies
+* check policy
+
 ### 3 - Transaction
+
+#### 3.1 - Operations
+
+* transaction per account lsit
+* updating status of transaction
 
 ### 4 - Account managment
 
+#### 4.1 - Operations
+
+* Define financial operation permission
+* Retrieve update cumulative balance of account
+* Update account latest 
+
 ### 5 - Exchange
+
+#### 5.1 - Operations
 
 * Inqury exchange rate
 
