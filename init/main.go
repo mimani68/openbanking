@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/mimani68/fintech-core/core/payment"
 	. "github.com/mimani68/fintech-core/pkg/log"
 )
 
@@ -16,5 +17,10 @@ func main() {
 	logger.Error("Port definition", map[string]string{
 		"expected": "3000",
 		"current":  "NULL",
+	})
+	p := payment.PaymentHandler(logger)
+	p.PaymentDirect(&payment.PaymentRequestMeta{
+		Amount:              10,
+		DestinationBankCode: "15",
 	})
 }
