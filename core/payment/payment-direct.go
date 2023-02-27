@@ -1,6 +1,10 @@
 package payment
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/mimani68/fintech-core/pkg/tracer"
+)
 
 type PaymentRequestMeta struct {
 	Amount                 int
@@ -8,6 +12,12 @@ type PaymentRequestMeta struct {
 	DestinationBankId      int
 	DestinationAccountCode string
 	DestinationAccountId   int
+
+	IdempotencyId string
+	CustomerId    string
+	ServerId      string
+
+	Tracer tracer.ITracer
 }
 
 func (p *payment) PaymentDirect(r *PaymentRequestMeta) {
