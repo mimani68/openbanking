@@ -22,5 +22,6 @@ func main() {
 	p.PaymentDirect(&payment.PaymentRequestMeta{
 		Amount:              10,
 		DestinationBankCode: "15",
+		IdempotencyId:       "ir2233",
 	})
 }
