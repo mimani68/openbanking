@@ -8,9 +8,10 @@ type FlowElement struct {
 	log log.Ilogger
 
 	TID             string
-	nextStep        string
 	firstStepPassed bool
 	currentStep     string
+	jumptToStep     string
+	isEnded         bool
 }
 
 func (f *FlowElement) If(alias string, condition func() bool, failure string) *FlowElement {
@@ -18,17 +19,21 @@ func (f *FlowElement) If(alias string, condition func() bool, failure string) *F
 		f.firstStepPassed = true
 		f.currentStep = alias
 	}
-	if f.currentStep == alias || f.nextStep == alias {
+	if f.jumptToStep == alias || f.jumptToStep == "" {
 		f.currentStep = alias
+		if f.jumptToStep == alias {
+			f.jumptToStep = ""
+		}
 		state := condition()
 		if !state {
-			f.nextStep = failure
+			f.jumptToStep = failure
 		}
 		f.log.Debug("If condition", map[string]string{
 			"TID":          f.TID,
-			"next-step":    f.nextStep,
+			"next-step":    f.jumptToStep,
 			"current-step": f.currentStep,
 		})
+		f.storeState()
 	}
 	return f
 }
@@ -38,19 +43,23 @@ func (f *FlowElement) IfElse(alias string, condition func() bool, success string
 		f.firstStepPassed = true
 		f.currentStep = alias
 	}
-	if f.currentStep == alias || f.nextStep == alias {
+	if f.jumptToStep == alias || f.jumptToStep == "" {
 		f.currentStep = alias
+		if f.jumptToStep == alias {
+			f.jumptToStep = ""
+		}
 		state := condition()
-		if state {
-			f.nextStep = failure
+		if !state {
+			f.jumptToStep = failure
 		} else {
-			f.nextStep = success
+			f.jumptToStep = success
 		}
 		f.log.Debug("IfElse condition", map[string]string{
 			"TID":          f.TID,
-			"next-step":    f.nextStep,
+			"next-step":    f.jumptToStep,
 			"current-step": f.currentStep,
 		})
+		f.storeState()
 	}
 	return f
 }
@@ -60,23 +69,23 @@ func (f *FlowElement) Do(alias string, condition func()) *FlowElement {
 		f.firstStepPassed = true
 		f.currentStep = alias
 	}
-	if f.currentStep == alias || f.nextStep == alias || f.nextStep == "" {
+	if f.jumptToStep == "" || f.jumptToStep == alias {
 		f.currentStep = alias
+		if f.jumptToStep == alias {
+			f.jumptToStep = ""
+		}
 		condition()
 		f.log.Debug("Do condition", map[string]string{
 			"TID":          f.TID,
-			"next-step":    f.nextStep,
+			"next-step":    f.jumptToStep,
 			"current-step": f.currentStep,
 		})
+		f.storeState()
 	}
 	return f
 }
 
-func FlowGenerator(id string, log log.Ilogger) *FlowElement {
-	log.Debug("Flow defining", nil)
-	return &FlowElement{
-		TID:             id,
-		log:             log,
-		firstStepPassed: false,
-	}
+func (f *FlowElement) End() {
+	f.isEnded = true
+	f.storeState()
 }

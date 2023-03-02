@@ -61,6 +61,8 @@ func (p *payment) PaymentDirect(r *PaymentRequestMeta) {
 			p.log.Debug("Finish flow by will-send-package", nil)
 		})
 
+	paymentFlow.End()
+
 }
 
 func firstValidation() bool {
