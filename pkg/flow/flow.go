@@ -64,6 +64,8 @@ func (f *FlowElement) IfElse(alias string, condition func() bool, success string
 	return f
 }
 
+// Any kind of operation which dosen't need valid and clear output
+// you can assume this functionality as pipline
 func (f *FlowElement) Do(alias string, condition func()) *FlowElement {
 	if !f.firstStepPassed {
 		f.firstStepPassed = true

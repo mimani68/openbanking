@@ -1,5 +1,11 @@
 package uow
 
+import (
+	"fmt"
+
+	"github.com/mimani68/fintech-core/pkg/log"
+)
+
 /**
   # Unit of Work
   A unit of work is a pattern used to group
@@ -10,16 +16,32 @@ package uow
   rather than done in multiple database transactions.
 */
 type UnitOfWorkAbstract struct {
-	// log                log.Ilogger
+	Log log.Ilogger
+
+	TID                string
 	transactionSuccess bool
 }
 
 func (u *UnitOfWorkAbstract) Commit() {
-	// u.log.Debug("Commit", nil)
 	u.transactionSuccess = true
+	u.Log.Debug("Commit", map[string]string{
+		"TID":    u.TID,
+		"status": fmt.Sprintf("%v", u.transactionSuccess),
+	})
 }
 
-func (u *UnitOfWorkAbstract) Rollback() {
-	// u.log.Debug("Rollback", nil)
-	u.transactionSuccess = false
+func (u *UnitOfWorkAbstract) Rollback(cb func() bool) {
+	state := cb()
+	if state {
+		u.transactionSuccess = false
+		u.Log.Debug("Rollback", map[string]string{
+			"TID":    u.TID,
+			"status": fmt.Sprintf("%v", u.transactionSuccess),
+		})
+	} else {
+		u.Log.Error("Rollback operation was unsuccessful", map[string]string{
+			"TID":    u.TID,
+			"status": fmt.Sprintf("%v", u.transactionSuccess),
+		})
+	}
 }

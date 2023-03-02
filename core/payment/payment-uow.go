@@ -5,18 +5,54 @@ import (
 	"github.com/mimani68/fintech-core/pkg/uow"
 )
 
-func PaymentUnitOfWorkGenerator(log log.Ilogger) PaymentUnitOfWork {
-	log.Debug("Transaction Start", nil)
+//
+// 	example:
+//
+//	TID := "jf93n22"
+//	trx := PaymentUnitOfWorkGenerator(TID, p.log)
+//	ops := func() bool {
+//		return false
+//	}
+//	rollbackOps := func() bool {
+//		return true
+//	}
+//	trx.Add(ops, rollbackOps)
+//	trx.Commit()
+//
+//
+func PaymentUnitOfWorkGenerator(tid string, log log.Ilogger) PaymentUnitOfWork {
+	log.Debug("Transaction Start", map[string]string{
+		"TID": tid,
+	})
 	return PaymentUnitOfWork{
-		log: log,
+		Log: log,
+		TID: tid,
+		UnitOfWorkAbstract: uow.UnitOfWorkAbstract{
+			TID: tid,
+			Log: log,
+		},
 	}
 }
 
 type PaymentUnitOfWork struct {
 	uow.UnitOfWorkAbstract
-	log log.Ilogger
+
+	TID       string
+	isSuccess bool
+
+	Log log.Ilogger
 }
 
-func (p *PaymentUnitOfWork) Add(cb func()) {
-	p.log.Debug("Add new ops in transtion", nil)
+func (p *PaymentUnitOfWork) Add(cb func() bool, rollback func() bool) {
+	p.isSuccess = cb()
+	if p.isSuccess {
+		p.Log.Debug("Add new ops in transtion", map[string]string{
+			"TID": p.TID,
+		})
+	} else {
+		p.Log.Error("Rollback should applied", map[string]string{
+			"TID": p.TID,
+		})
+		p.Rollback(rollback)
+	}
 }
