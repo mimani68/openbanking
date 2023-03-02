@@ -10,8 +10,8 @@ var yellow = color.New(color.FgYellow).SprintFunc()
 var red = color.New(color.FgRed).SprintFunc()
 var blue = color.New(color.FgBlue).SprintFunc()
 
-func Log() logger {
-	return logger{
+func Log() Ilogger {
+	return &logger{
 		Level:            "DEFAULT",
 		MaxMessageLentgh: 30,
 	}
