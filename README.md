@@ -89,6 +89,7 @@ Current initiative engine would be an ingredient of massive economy of financial
 
 ## 📚 Documentation
 
+![](./docs/images/run.png)
 
 ## 🗺️ Community Meetings 
 

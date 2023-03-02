@@ -29,6 +29,7 @@ func (f *FlowElement) If(alias string, condition func() bool, failure string) *F
 			f.jumptToStep = failure
 		}
 		f.log.Debug("If condition", map[string]string{
+			"type":         "flow",
 			"TID":          f.TID,
 			"next-step":    f.jumptToStep,
 			"current-step": f.currentStep,
@@ -55,6 +56,7 @@ func (f *FlowElement) IfElse(alias string, condition func() bool, success string
 			f.jumptToStep = success
 		}
 		f.log.Debug("IfElse condition", map[string]string{
+			"type":         "flow",
 			"TID":          f.TID,
 			"next-step":    f.jumptToStep,
 			"current-step": f.currentStep,
@@ -78,6 +80,7 @@ func (f *FlowElement) Do(alias string, condition func()) *FlowElement {
 		}
 		condition()
 		f.log.Debug("Do condition", map[string]string{
+			"type":         "flow",
 			"TID":          f.TID,
 			"next-step":    f.jumptToStep,
 			"current-step": f.currentStep,

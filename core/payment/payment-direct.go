@@ -34,7 +34,7 @@ func (p *payment) PaymentDirect(r *dto.PaymentRequestMeta) {
 			return true
 		})
 		trx.Add(func() bool {
-			return true
+			return false
 		}, func() bool {
 			return true
 		})
