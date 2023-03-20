@@ -6,6 +6,8 @@ import (
 	"github.com/mimani68/fintech-core/core/payment"
 	"github.com/mimani68/fintech-core/data/dto"
 	"github.com/mimani68/fintech-core/pkg/flow"
+	"github.com/mimani68/fintech-core/pkg/queue"
+	"github.com/mimani68/fintech-core/policy"
 )
 
 //
@@ -22,40 +24,49 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) {
 
 	// Validation
 	paymentFlow.
-		Do("calculate-sth-1", func() {}).
-		IfElse("second-validation", func() bool {
-			return true
-		}, "calculate-sth-2", "will-send-package")
+		IfElse("minimum-payment-value-meet", func() bool {
+			p.Log.Debug("Minimum payment limit must meet", r)
+			return r.Amount >= policy.PaymentPolicy.MinumumPayment
+		}, "maxium-payment-value-meet", "send-to-queue").
+		IfElse("maxium-payment-value-meet", func() bool {
+			p.Log.Debug("Maximum payment limit must meet", r)
+			return r.Amount < policy.PaymentPolicy.MaxiumPayment
+		}, "payer-balance-adequacy", "send-to-queue").
+		IfElse("payer-balance-adequacy", func() bool {
+			payerBalance := 100
+			p.Log.Debug("Payer bank account balance adequacy must meet", r)
+			return r.Amount >= payerBalance
+		}, "payer-operation-state", "send-to-queue").
+		IfElse("payer-operation-state", func() bool {
+			payerState := true
+			p.Log.Debug("Payer should allowed operation", r)
+			return payerState
+		}, "do-payer-allowed-to-send-to-payee", "send-to-queue").
+		IfElse("do-payer-allowed-to-send-to-payee", func() bool {
+			payerState := true
+			p.Log.Debug("Payer must allowed for transfer", r)
+			return payerState
+		}, "payment-transaction-start", "send-to-queue")
 
-	// Transaction Manager
-	trx := payment.PaymentUnitOfWorkGenerator(r.IdempotencyId, p.Log)
-	paymentFlow.Do("calculate-sth-2", func() {
-		p.Log.Debug("Transaction manager", nil)
-		trx.Add(func() bool {
-			return true
-		}, func() bool {
-			return true
-		})
-		trx.Add(func() bool {
-			return false
-		}, func() bool {
-			return true
-		})
-	}).
-		If("simple-check", func() bool {
-			return false
-		}, "will-send-package")
+	// Transaction Start
+	var trx payment.PaymentUnitOfWork
+	paymentFlow.Do("payment-transaction-start", func() {
+		trx = payment.PaymentUnitOfWorkGenerator(r.IdempotencyId, p.Log)
+		p.Log.Debug("Transaction manager started", nil)
+	})
 
-	// Commit or Rollback
-	paymentFlow.Do("calculate-sth-4", func() {
-		trx.Commit()
-	}).
-		Do("need-wait", func() {
-			p.Log.Debug("Finish flow by need-wait status", nil)
-		}).
-		Do("will-send-package", func() {
-			p.Log.Debug("Finish flow by will-send-package", nil)
-		})
+	// Attachment of payment
+	paymentFlow.Do("attachment", func() {
+		p.Log.Debug("Attach if needed", nil)
+		fileName := "doc-1"
+		trx.Add(attachFileIntoStorage(fileName), removeFileFromStorage(), fileName)
+	})
+
+	paymentFlow.Do("send-to-queue", func() {
+		q := queue.QueueBuilder()
+		paymentLabel := fmt.Sprintf("payment-%s", r.IdempotencyId)
+		q.Add(paymentLabel, r)
+	})
 
 	paymentFlow.End()
 

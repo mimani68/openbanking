@@ -6,6 +6,7 @@ import (
 	"github.com/mimani68/fintech-core/core/payment"
 	"github.com/mimani68/fintech-core/data/dto"
 	"github.com/mimani68/fintech-core/pkg/flow"
+	"github.com/mimani68/fintech-core/pkg/queue"
 )
 
 func (p *paymentAbstract) PaymentCustom(r *dto.PaymentRequestMeta) {
@@ -54,6 +55,12 @@ func (p *paymentAbstract) PaymentCustom(r *dto.PaymentRequestMeta) {
 		Do("will-send-package", func() {
 			p.Log.Debug("Finish flow by will-send-package", nil)
 		})
+
+	paymentFlow.Do("send-to-queue", func() {
+		q := queue.QueueBuilder()
+		paymentLabel := fmt.Sprintf("payment-%s", r.IdempotencyId)
+		q.Add(paymentLabel, r)
+	})
 
 	paymentFlow.End()
 
