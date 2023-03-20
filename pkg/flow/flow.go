@@ -68,7 +68,12 @@ func (f *FlowElement) IfElse(alias string, condition func() bool, success string
 
 // Any kind of operation which dosen't need valid and clear output
 // you can assume this functionality as pipline
-func (f *FlowElement) Do(alias string, condition func()) *FlowElement {
+func (f *FlowElement) Do(alias string, cb func(), exceptSteps ...string) *FlowElement {
+	for _, item := range exceptSteps {
+		if f.currentStep == item {
+			return f
+		}
+	}
 	if !f.firstStepPassed {
 		f.firstStepPassed = true
 		f.currentStep = alias
@@ -78,8 +83,8 @@ func (f *FlowElement) Do(alias string, condition func()) *FlowElement {
 		if f.jumptToStep == alias {
 			f.jumptToStep = ""
 		}
-		condition()
-		f.log.Debug("Do condition", map[string]string{
+		cb()
+		f.log.Debug("Do callback", map[string]string{
 			"type":         "flow",
 			"TID":          f.TID,
 			"next-step":    f.jumptToStep,

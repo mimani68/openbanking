@@ -43,7 +43,7 @@ type PaymentUnitOfWork struct {
 	Log log.Ilogger
 }
 
-func (p *PaymentUnitOfWork) Add(cb func(interface{}) bool, rollback func() bool, params interface{}) {
+func (p *PaymentUnitOfWork) Add(cb func(map[string]interface{}) bool, rollback func(map[string]interface{}) bool, params map[string]interface{}) {
 	p.isSuccess = cb(params)
 	if p.isSuccess {
 		p.Log.Debug("Add new ops in transtion", map[string]string{
@@ -53,6 +53,6 @@ func (p *PaymentUnitOfWork) Add(cb func(interface{}) bool, rollback func() bool,
 		p.Log.Error("Rollback should applied", map[string]string{
 			"TID": p.TID,
 		})
-		p.Rollback(rollback)
+		p.Rollback(rollback, params)
 	}
 }

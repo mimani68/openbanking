@@ -1,9 +1,12 @@
 package main
 
 import (
-	"github.com/mimani68/fintech-core/core/payment"
+	"fmt"
+
+	"github.com/mimani68/fintech-core/core/payment/direct"
 	"github.com/mimani68/fintech-core/data/dto"
 	. "github.com/mimani68/fintech-core/pkg/log"
+	"github.com/mimani68/fintech-core/pkg/random"
 )
 
 func main() {
@@ -23,10 +26,10 @@ func main() {
 	})
 
 	// Run simple payment operation
-	p := payment.PaymentHandler(generalLogger)
+	p := direct.PaymentHandler(generalLogger)
 	p.PaymentDirect(&dto.PaymentRequestMeta{
-		Amount:              10,
-		DestinationBankCode: "15",
-		IdempotencyId:       "ir2233",
+		Amount:              10e3 * 2,
+		DestinationBankCode: "shr100-337-10084-1",
+		IdempotencyId:       fmt.Sprintf("ir%d", random.RandomInt(10e3, 10e6)),
 	})
 }

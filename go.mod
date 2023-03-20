@@ -2,7 +2,10 @@ module github.com/mimani68/fintech-core
 
 go 1.18
 
-require github.com/fatih/color v1.14.1
+require (
+	github.com/fatih/color v1.14.1
+	github.com/google/uuid v1.3.0
+)
 
 require (
 	github.com/mattn/go-colorable v0.1.13 // indirect

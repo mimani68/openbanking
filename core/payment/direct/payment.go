@@ -1,4 +1,4 @@
-package directpayment
+package direct
 
 import (
 	"github.com/mimani68/fintech-core/pkg/log"

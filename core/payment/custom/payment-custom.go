@@ -30,16 +30,11 @@ func (p *paymentAbstract) PaymentCustom(r *dto.PaymentRequestMeta) {
 	trx := payment.PaymentUnitOfWorkGenerator(r.IdempotencyId, p.Log)
 	paymentFlow.Do("calculate-sth-2", func() {
 		p.Log.Debug("Transaction manager", nil)
-		trx.Add(func() bool {
-			return true
-		}, func() bool {
-			return true
-		})
-		trx.Add(func() bool {
-			return false
-		}, func() bool {
-			return true
-		})
+		// trx.Add(func() bool {
+		// 	return true
+		// }, func() bool {
+		// 	return true
+		// })
 	}).
 		If("simple-check", func() bool {
 			return false

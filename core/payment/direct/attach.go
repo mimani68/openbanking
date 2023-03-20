@@ -1,9 +1,9 @@
-package directpayment
+package direct
 
-func attachFileIntoStorage(fileName string) bool {
+func attachFileIntoStorage(file map[string]interface{}) bool {
 	return true
 }
 
-func removeFileFromStorage() bool {
+func removeFileFromStorage(file map[string]interface{}) bool {
 	return true
 }
