@@ -13,12 +13,12 @@ import (
 //
 // Adding current payment request to operation queue
 //
-func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentResonseDto {
+func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentResponseDto {
 	p.Log.Debug("Incoming request for fullfilment was contain data like", map[string]string{
 		"amount":      fmt.Sprintf("%v", r.Amount),
 		"destination": fmt.Sprintf("%v", r.DestinationBankCode),
 	})
-	var response dto.PaymentResonseDto
+	var response dto.PaymentResponseDto
 
 	// Flow defining
 	paymentFlow := flow.FlowGenerator(r.IdempotencyId, p.Log)
@@ -90,7 +90,7 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentRe
 
 	// Reject payment request
 	paymentFlow.Do("reject-payment", func() {
-		response = dto.PaymentResonseDto{
+		response = dto.PaymentResponseDto{
 			Message: "Due failure in pre requirements the transaction had failed",
 			TID:     r.IdempotencyId,
 		}
@@ -101,7 +101,7 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentRe
 		q := queue.QueueBuilder()
 		paymentLabel := fmt.Sprintf("payment-%s", r.IdempotencyId)
 		q.Add(paymentLabel, r)
-		response = dto.PaymentResonseDto{
+		response = dto.PaymentResponseDto{
 			Message: "Transaction queued successfuly and will wait for further process",
 			TID:     r.IdempotencyId,
 		}
