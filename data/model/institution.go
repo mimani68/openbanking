@@ -6,19 +6,25 @@ import (
 	"gorm.io/gorm"
 )
 
-type InstitutionBaseDto struct {
+type InstitutionBase struct {
 	Id        int
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
-type InstitutionDto struct {
+type Institution struct {
 	gorm.Model
-	InstitutionBaseDto
+	InstitutionBase
 	Title string
 }
 
-type InstitutionConfigDto struct {
+type InstitutionMeta struct {
+	gorm.Model
+	InstituionId int
+	Address      string
+}
+
+type InstitutionConfig struct {
 	gorm.Model
 	InstituionId int
 	Key          string
@@ -27,7 +33,7 @@ type InstitutionConfigDto struct {
 	IsActive     bool   `default:"true" json:"isActive" xml:"isActive"`
 }
 
-type InstitutionStaffDto struct {
+type InstitutionStaff struct {
 	gorm.Model
 	InstituionId int
 	MemeberId    int
