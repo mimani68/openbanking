@@ -28,8 +28,10 @@ func main() {
 	// Run simple payment operation
 	p := direct.PaymentHandler(generalLogger)
 	p.PaymentDirect(&dto.PaymentRequestMeta{
-		Amount:              10e3 * 2,
-		DestinationBankCode: "shr100-337-10084-1",
-		IdempotencyId:       fmt.Sprintf("ir%d", random.RandomInt(10e3, 10e6)),
+		PaymentRequest: dto.PaymentRequest{
+			Amount:              10e3 * 2,
+			DestinationBankCode: "shr100-337-10084-1",
+		},
+		IdempotencyId: fmt.Sprintf("ir%d", random.RandomInt(10e3, 10e6)),
 	})
 }

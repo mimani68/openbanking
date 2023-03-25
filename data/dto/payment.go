@@ -22,7 +22,7 @@ type PaymentRequestMeta struct {
 	Tracer tracer.ITracer
 }
 
-type PaymentResponseDto struct {
+type PaymentResponse struct {
 	Message string `json:"message"`
 	TID     string `json:"tid"`
 }
