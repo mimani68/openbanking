@@ -30,8 +30,8 @@ func (u *UnitOfWorkAbstract) Commit() {
 	})
 }
 
-func (u *UnitOfWorkAbstract) Rollback(cb func() bool) {
-	state := cb()
+func (u *UnitOfWorkAbstract) Rollback(cb func(map[string]interface{}) bool, params map[string]interface{}) {
+	state := cb(params)
 	if state {
 		u.transactionSuccess = false
 		u.Log.Debug("Rollback", map[string]string{
