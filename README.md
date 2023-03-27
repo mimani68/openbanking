@@ -1,4 +1,6 @@
-# FinTech Core Engine
+# Open banking and FinTech
+
+![](./docs/images/logo.svg)
 
 By implementing can find that
 
