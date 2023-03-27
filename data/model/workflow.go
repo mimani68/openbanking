@@ -1,4 +1,4 @@
-package dto
+package model
 
 import (
 	"time"
@@ -30,7 +30,7 @@ type WorkFlow struct {
 	WorkFlowBase
 
 	WorkFlowAbstractId int
-	CustomerId         int // FK
+	PaymentId          int // FK
 }
 
 type WorkFlowStep struct {
