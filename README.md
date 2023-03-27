@@ -1,18 +1,13 @@
-# Open banking and FinTech
+# Open-Banking and Fin-Tech
 
 ![](./docs/images/logo.svg)
-
-By implementing can find that
-
-> **Simplest but instructive path to having a full-blown autonomous and automated business engine in order to monetization process**
-
-
-
-![](https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/k-g-g1296-fintech.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=f079a436e5bfb3fad425248c6cfb135a)
 
 ## ✒️ About
 
 Current initiative engine would be an ingredient of massive economy of financial and credential service dedicated to empower institution and aid all fast growing startup by helping them to use in daily trading and banking affairs.
+
+
+
 
 ## 🔭 Features
 
@@ -24,6 +19,11 @@ Current initiative engine would be an ingredient of massive economy of financial
 * Ability to migrate to multitenant-architecture
 * Fastest way to develop business-friendly fintech
 * Truly inspired by real-world example and a decade experience in fintech
+* Data enrichment by using OOP concept in database structure
+
+
+![](https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/k-g-g1296-fintech.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=f079a436e5bfb3fad425248c6cfb135a)
+
 
 ## 🏷️ Services
 
