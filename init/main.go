@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/mimani68/fintech-core/core/payment/direct"
+	"github.com/mimani68/fintech-core/data/datasource"
 	"github.com/mimani68/fintech-core/data/dto"
 	. "github.com/mimani68/fintech-core/pkg/log"
 	"github.com/mimani68/fintech-core/pkg/random"
@@ -24,6 +25,9 @@ func main() {
 		"expected": "3000",
 		"current":  "NULL",
 	})
+
+	db := datasource.NewSqliteDataSource("sample.db")
+	fmt.Printf("%T\n", db)
 
 	// Run simple payment operation
 	p := direct.PaymentHandler(generalLogger)
