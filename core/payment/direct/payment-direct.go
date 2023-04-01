@@ -10,15 +10,13 @@ import (
 	"github.com/mimani68/fintech-core/policy"
 )
 
-//
 // Adding current payment request to operation queue
-//
-func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentResponseDto {
+func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentResponse {
 	p.Log.Debug("Incoming request for fullfilment was contain data like", map[string]string{
 		"amount":      fmt.Sprintf("%v", r.Amount),
 		"destination": fmt.Sprintf("%v", r.DestinationBankCode),
 	})
-	var response dto.PaymentResponseDto
+	var response dto.PaymentResponse
 
 	// Flow defining
 	paymentFlow := flow.FlowGenerator(r.IdempotencyId, p.Log)
@@ -90,7 +88,7 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentRe
 
 	// Reject payment request
 	paymentFlow.Do("reject-payment", func() {
-		response = dto.PaymentResponseDto{
+		response = dto.PaymentResponse{
 			Message: "Due failure in pre requirements the transaction had failed",
 			TID:     r.IdempotencyId,
 		}
@@ -101,7 +99,7 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentRe
 		q := queue.QueueBuilder()
 		paymentLabel := fmt.Sprintf("payment-%s", r.IdempotencyId)
 		q.Add(paymentLabel, r)
-		response = dto.PaymentResponseDto{
+		response = dto.PaymentResponse{
 			Message: "Transaction queued successfuly and will wait for further process",
 			TID:     r.IdempotencyId,
 		}
