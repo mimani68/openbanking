@@ -1,4 +1,4 @@
-package keygen
+package random
 
 import (
 	"math/rand"

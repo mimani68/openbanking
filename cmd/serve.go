@@ -20,7 +20,7 @@ var serveCMD = &cli.Command{
 	Name:    "serve",
 	Aliases: []string{"s"},
 	Usage:   "serve http",
-	Action:  serve,
+	Action:  payment,
 }
 
 func serve(c *cli.Context) error {

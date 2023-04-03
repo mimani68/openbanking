@@ -8,7 +8,7 @@ import (
 
 func Run() error {
 	app := cli.App{
-		Commands: []*cli.Command{serveCMD},
+		Commands: []*cli.Command{serveCMD, paymentCMD},
 	}
 
 	return app.Run(os.Args)
