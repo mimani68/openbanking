@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type AccountBase struct {
 	Id        int
@@ -20,4 +24,13 @@ type Account struct {
 	AccountCode string
 
 	Balance int
+}
+
+func (AccountBase) TableName() string {
+	return "app.account"
+}
+
+func (base *AccountBase) BeforeCreate(tx *gorm.DB) (err error) {
+	// base.ID = uuid.New()
+	return
 }
