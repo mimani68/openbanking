@@ -33,22 +33,24 @@ type CustomerService struct {
 type CustomerPrefrence struct {
 	CustomerBase
 
+	Title    string
+	Value    string
+	File     string
+	Type     string `json:"type" xml:"type" enum:"file,value" default:"value"`
+	ExpireAt time.Time
+
 	CustomerId int // FK
 	ServiceId  int // FK
-	Title      string
-	Value      string
-	File       string
-	Type       string `default:"value" json:"type" xml:"type" enum:"file,value"`
-	ExpireAt   time.Time
 }
 
 type CustomerActivity struct {
 	gorm.Model
 
+	Title  string `json:"title" xml:"title" enum:"opening,closing,suspending,under-investigation" default:"opening"`
+	Value  string
+	Time   time.Time
+	Result string
+
 	CustomerId int // FK
 	ServiceId  int // FK
-	Title      string
-	Value      string
-	Time       time.Time
-	Result     string
 }
