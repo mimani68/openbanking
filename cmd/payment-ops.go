@@ -56,9 +56,5 @@ func payment(c *cli.Context) error {
 	<-signalChan
 	fmt.Println("\nReceived an interrupt, closing connections...")
 
-	// if err := restServer.Shutdown(); err != nil {
-	// 	fmt.Println("\nRest server doesn't shutdown in 10 seconds")
-	// }
-
 	return nil
 }
