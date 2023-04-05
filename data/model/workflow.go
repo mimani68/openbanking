@@ -29,7 +29,7 @@ type Workflow struct {
 
 	WorkflowAbstract   []WorkflowAbstract `json:"workflowAbstract" xml:"workflowAbstract" gorm:"foreignKey:WorkflowAbstractId"`
 	WorkflowAbstractId int                `json:"workflowAbstractId" xml:"workflowAbstractId"`
-	Payment            int                `json:"payment" xml:"payment" gorm:"foreignKey:PaymentId"`
+	Payment            Payment            `json:"payment" xml:"payment" gorm:"foreignKey:PaymentId"`
 	PaymentId          int                `json:"paymentId" xml:"paymentId" `
 
 	Status WorkflowStatus

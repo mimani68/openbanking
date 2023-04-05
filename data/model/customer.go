@@ -7,30 +7,30 @@ import (
 )
 
 type CustomerBase struct {
-	Id        int
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	gorm.Model
+	Id        int       `json:"id" xml:"id" gorm:"primaryKey,unique,not null"`
+	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"index,not null"`
+	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt" gorm:"index,not null"`
 }
 
 // Polymorhic mode for customer -> person,institue,business
 type Customer struct {
-	gorm.Model
 	CustomerBase
 
 	Type string `default:"person" json:"type" xml:"type" enum:"person,institue,business"`
 }
 
 type CustomerService struct {
-	gorm.Model
 	CustomerBase
 
-	ServiceId int // FK
-	IsActive  bool
-	ExpireAt  time.Time
+	Service   Service `gorm:"foreignKey:ServiceId"`
+	ServiceId int     `json:"serviceId" xml:"serviceId"`
+
+	IsActive bool      `json:"isActive" xml:"isActive" default:"false"`
+	ExpireAt time.Time `json:"expireAt" xml:"expireAt"`
 }
 
 type CustomerPrefrence struct {
-	gorm.Model
 	CustomerBase
 
 	CustomerId int // FK
