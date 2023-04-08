@@ -9,15 +9,17 @@ import (
 type CustomerBase struct {
 	gorm.Model
 	Id        int       `json:"id" xml:"id" gorm:"primaryKey,unique,not null"`
-	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"index,not null"`
-	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt" gorm:"index,not null"`
+	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"not null"`
+	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt"`
+	DeletedAt time.Time `json:"deletedAt" xml:"deletedAt"`
 }
 
 // Polymorhic mode for customer -> person,institue,business
 type Customer struct {
 	CustomerBase
 
-	Type string `default:"person" json:"type" xml:"type" enum:"person,institue,business"`
+	Title string `json:"title" xml:"title"`
+	Type  string `json:"type" xml:"type" enum:"person,institue,business"`
 }
 
 type CustomerService struct {

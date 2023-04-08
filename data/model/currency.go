@@ -9,8 +9,8 @@ import (
 type CurrencyBase struct {
 	gorm.Model
 	Id        int       `json:"id" xml:"id" gorm:"primaryKey,unique,not null"`
-	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"index,not null"`
-	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt" gorm:"index,not null"`
+	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"not null"`
+	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt"`
 }
 
 type Currency struct {

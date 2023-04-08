@@ -9,15 +9,15 @@ import (
 type AccountBase struct {
 	gorm.Model
 	Id        int       `json:"id" xml:"id" gorm:"primaryKey,unique,not null"`
-	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"index,not null"`
-	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt" gorm:"index,not null"`
+	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"not null"`
+	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt"`
+	DeletedAt time.Time `json:"deletedAt" xml:"deletedAt"`
 }
 
 type Account struct {
-	gorm.Model
 	AccountBase
 
-	AccountCode string
+	AccountCode string `json:"accountCode" xml:"accountCode" gorm:"index,not null"`
 
 	Customer   Customer `json:"customer,omitempty" xml:"customer" gorm:"foreignKey:CustomerId"`
 	CustomerId int      `json:"customerId" xml:"customerId" gorm:"not null"`
