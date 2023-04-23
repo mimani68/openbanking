@@ -14,12 +14,12 @@ type CustomerBase struct {
 	DeletedAt time.Time `json:"deletedAt" xml:"deletedAt"`
 }
 
-// Polymorhic mode for customer -> person,institue,business
+// Polymorphic mode for customer -> person,institute,business
 type Customer struct {
 	CustomerBase
 
-	Title string `json:"title" xml:"title"`
-	Type  string `json:"type" xml:"type" enum:"person,institue,business"`
+	RefID   string `json:"refID" xml:"refID"`
+	RefType string `json:"refType" xml:"refType" enum:"person,institute,business"`
 }
 
 type CustomerService struct {
@@ -32,7 +32,7 @@ type CustomerService struct {
 	ExpireAt time.Time `json:"expireAt" xml:"expireAt"`
 }
 
-type CustomerPrefrence struct {
+type CustomerPreference struct {
 	CustomerBase
 
 	Title    string

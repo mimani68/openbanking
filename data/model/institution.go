@@ -20,22 +20,22 @@ type Institution struct {
 
 type InstitutionMeta struct {
 	gorm.Model
-	InstituionId int
-	Address      string
+	InstitutionId int
+	Address       string
 }
 
 type InstitutionConfig struct {
 	gorm.Model
-	InstituionId int
-	Key          string
-	Value        string
-	Category     string `json:"category,omitempty" xml:"category"`
-	IsActive     bool   `default:"true" json:"isActive" xml:"isActive"`
+	InstitutionId int
+	Key           string
+	Value         string
+	Category      string `json:"category,omitempty" xml:"category"`
+	IsActive      bool   `default:"true" json:"isActive" xml:"isActive"`
 }
 
 type InstitutionStaff struct {
 	gorm.Model
-	InstituionId int
-	MemeberId    int
-	Level        string // admin, master, user, superuser
+	InstitutionId int
+	MemberId      int
+	Level         string // admin, master, user, superuser
 }

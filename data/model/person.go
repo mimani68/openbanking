@@ -19,6 +19,8 @@ type Person struct {
 
 	Name   string `json:"name" xml:"name"`
 	Family string `json:"family" xml:"family"`
+
+	Customer Customer `gorm:"polymorphic:Ref;polymorphicValue:person"`
 }
 
 type PersonMeta struct {
@@ -29,7 +31,7 @@ type PersonMeta struct {
 
 	NationalCode string `json:"nationalCode" xml:"nationalCode" gorm:"index,not null"`
 	Passport     string `json:"passport" xml:"passport" gorm:"index,not null"`
-	Protratit    string `json:"protratit" xml:"protratit"`
+	Portrait     string `json:"Portrait" xml:"Portrait"`
 }
 
 type PersonLegalInquiry struct {
@@ -50,7 +52,7 @@ type PersonStatus struct {
 	PersonId int    `json:"personId" xml:"personId"`
 	Person   Person `gorm:"foreignKey:PersonId"`
 
-	CurrectStatus string    `json:"currectStatus" xml:"currectStatus"`
+	CurrentStatus string    `json:"currentStatus" xml:"currentStatus"`
 	LastStatus    string    `json:"lastStatus" xml:"lastStatus"`
 	UpdatedTime   time.Time `json:"updatedTime" xml:"updatedTime"`
 }
@@ -65,7 +67,7 @@ type PersonConnectionChannel struct {
 	Value      string `json:"value" xml:"value" gorm:"index,not null"`
 	IsVerified bool   `json:"isVerified" xml:"isVerified" default:"false"`
 	Order      int    `json:"order" xml:"order"`
-	IsDefualt  string `json:"isDefualt" xml:"isDefualt"`
+	IsDefault  string `json:"isDefault" xml:"isDefault"`
 }
 
 type PersonVerificationToken struct {

@@ -21,7 +21,7 @@ type Currency struct {
 	Digit       int    `json:"digit" xml:"digit" gorm:"not null"`
 	Physical    bool   `json:"physical" xml:"physical" default:"true"`
 	Description string `json:"description,omitempty" xml:"description"`
-	Refrence    string `json:"refrence,omitempty" xml:"refrence"`
+	Reference   string `json:"reference,omitempty" xml:"reference"`
 }
 
 func (Currency) TableName() string {
