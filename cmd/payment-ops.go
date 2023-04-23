@@ -18,19 +18,19 @@ var paymentCMD = &cli.Command{
 	Name:    "payment",
 	Aliases: []string{"p"},
 	Usage:   "Performing payments operations on your data",
-	Action:  payment,
+	Action:  development,
 }
 
 func payment(c *cli.Context) error {
 	// cfg := config.NewConfig()
 
-	// Logger instace generator
+	// Logger instance generator
 	generalLogger := log.Log()
 	generalLogger.Info("App is about to start", nil)
 	generalLogger.Info("Running", map[string]string{
 		"developer-mode": "True",
 	})
-	generalLogger.Debug("Current version for steady connectin in all distribution is LTS 11", map[string]string{
+	generalLogger.Debug("Current version for steady connection in all distribution is LTS 11", map[string]string{
 		"version": "1",
 	})
 	generalLogger.Error("Port definition", map[string]string{

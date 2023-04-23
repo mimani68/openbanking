@@ -10,28 +10,31 @@ type PersonBase struct {
 	gorm.Model
 	Id        int       `json:"id" xml:"id" gorm:"primaryKey,unique,not null"`
 	CreatedAt time.Time `json:"createdAt" xml:"createdAt" gorm:"not null"`
-	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt"`
-	DeletedAt time.Time `json:"deletedAt" xml:"deletedAt"`
+	UpdatedAt time.Time `json:"updatedAt" xml:"updatedAt" gorm:"null"`
+	DeletedAt time.Time `json:"deletedAt" xml:"deletedAt" gorm:"null"`
 }
 
 type Person struct {
 	PersonBase
 
-	Name   string `json:"name" xml:"name"`
-	Family string `json:"family" xml:"family"`
+	Name   string `json:"name" xml:"name" gorm:"index"`
+	Family string `json:"family" xml:"family" gorm:"index"`
 
-	Customer Customer `gorm:"polymorphic:Ref;polymorphicValue:person"`
+	// Customer Customer `gorm:"polymorphic:Ref;polymorphicValue:person"`
+
+	// PersonMeta PersonMeta `json:"personMeta" xml:"personMeta" gorm:"Id"`
 }
 
 type PersonMeta struct {
 	gorm.Model
 
-	PersonId int    `json:"personId" xml:"personId"`
-	Person   Person `gorm:"foreignKey:PersonId"`
+	// PersonId int    `json:"personId" xml:"personId"`
+	// Person   Person `gorm:"foreignKey:PersonId"`
 
 	NationalCode string `json:"nationalCode" xml:"nationalCode" gorm:"index,not null"`
 	Passport     string `json:"passport" xml:"passport" gorm:"index,not null"`
-	Portrait     string `json:"Portrait" xml:"Portrait"`
+	Nationality  string `json:"nationality" xml:"nationality"`
+	Portrait     string `json:"portrait" xml:"portrait"`
 }
 
 type PersonLegalInquiry struct {
@@ -40,10 +43,11 @@ type PersonLegalInquiry struct {
 	PersonId int    `json:"personId" xml:"personId"`
 	Person   Person `gorm:"foreignKey:PersonId"`
 
-	Title  string    `json:"title" xml:"title" gorm:"index,not null"`
-	Value  string    `json:"value" xml:"value" gorm:"index,not null"`
-	Issuer string    `json:"issuer" xml:"issuer" gorm:"index,not null"`
-	Time   time.Time `json:"time" xml:"time" gorm:"index,not null"`
+	Title      string    `json:"title" xml:"title" gorm:"index,not null"`
+	Value      string    `json:"value" xml:"value" gorm:"index,not null"`
+	Issuer     string    `json:"issuer" xml:"issuer" gorm:"index,not null"`
+	Attachment string    `json:"attachment" xml:"attachment"`
+	Time       time.Time `json:"time" xml:"time" gorm:"index,not null"`
 }
 
 type PersonStatus struct {
@@ -52,9 +56,9 @@ type PersonStatus struct {
 	PersonId int    `json:"personId" xml:"personId"`
 	Person   Person `gorm:"foreignKey:PersonId"`
 
-	CurrentStatus string    `json:"currentStatus" xml:"currentStatus"`
-	LastStatus    string    `json:"lastStatus" xml:"lastStatus"`
-	UpdatedTime   time.Time `json:"updatedTime" xml:"updatedTime"`
+	Status      string    `json:"status" xml:"status"`
+	LastStatus  string    `json:"lastStatus" xml:"lastStatus"`
+	UpdatedTime time.Time `json:"updatedTime" xml:"updatedTime"`
 }
 
 type PersonConnectionChannel struct {

@@ -13,7 +13,7 @@ var serveCMD = &cli.Command{
 	Name:    "serve",
 	Aliases: []string{"s"},
 	Usage:   "serve http",
-	Action:  payment,
+	Action:  development,
 }
 
 func serve(c *cli.Context) error {

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-type sqliteDbInstance struct {
+type mysqlDbInstance struct {
 	db           *gorm.DB
 	dbName       string
 	config       *gorm.Config
@@ -16,11 +16,12 @@ type sqliteDbInstance struct {
 	debugLog     bool
 }
 
-func NewSqliteDataSource(sqliteDbFileName string) IDataSource {
-	db := sqliteDbInstance{}
+func NewMySqlDataSource(dbAddress string) IDataSource {
+	db := mysqlDbInstance{}
 	db.config = &gorm.Config{}
-	db.dbName = sqliteDbFileName
+	db.dbName = dbAddress
 	db.initialDelay = 3 * time.Second
+	db.debugLog = false
 
 	db.connection(db.config)
 	time.Sleep(db.initialDelay)
@@ -28,10 +29,11 @@ func NewSqliteDataSource(sqliteDbFileName string) IDataSource {
 	return &db
 }
 
-func (d *sqliteDbInstance) connection(config *gorm.Config) error {
-	// d.dbName = d.dbName + "?cache=shared"
-	d.dbName = d.dbName + "?busy_timeout=5000&journal_mode=WAL"
-	db, err := gorm.Open(sqlite.Open(d.dbName), config)
+func (d *mysqlDbInstance) connection(config *gorm.Config) error {
+	if d.debugLog {
+		d.dbName = d.dbName + "?charset=utf8&timezone=Asia/Tehran"
+	}
+	db, err := gorm.Open(mysql.Open(d.dbName), config)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -39,7 +41,7 @@ func (d *sqliteDbInstance) connection(config *gorm.Config) error {
 	return nil
 }
 
-func (d *sqliteDbInstance) Disconnection() (disconnectError error) {
+func (d *mysqlDbInstance) Disconnection() (disconnectError error) {
 	fmt.Println("Disconnecting from the database…")
 	sql, _ := d.db.DB()
 	disconnectError = sql.Close()
@@ -50,12 +52,12 @@ func (d *sqliteDbInstance) Disconnection() (disconnectError error) {
 	return nil
 }
 
-func (d *sqliteDbInstance) Migration(models []interface{}) error {
+func (d *mysqlDbInstance) Migration(models []interface{}) error {
 	d.db.AutoMigrate(models...)
 	return nil
 }
 
-func (d *sqliteDbInstance) ping() (pingError error) {
+func (d *mysqlDbInstance) ping() (pingError error) {
 	sql, err := d.db.DB()
 	if err != nil {
 		fmt.Println("Error pinging database: ", err)
