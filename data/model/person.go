@@ -22,7 +22,7 @@ type Person struct {
 
 	// Customer Customer `gorm:"polymorphic:Ref;polymorphicValue:person"`
 
-	// PersonMeta PersonMeta `json:"personMeta" xml:"personMeta" gorm:"Id"`
+	PersonMeta PersonMeta `json:"personMeta" xml:"personMeta" gorm:"Id"`
 }
 
 type PersonMeta struct {
@@ -30,6 +30,7 @@ type PersonMeta struct {
 
 	// PersonId int    `json:"personId" xml:"personId"`
 	// Person   Person `gorm:"foreignKey:PersonId"`
+	Id int `json:"id" xml:"id" gorm:"primaryKey,unique,not null"`
 
 	NationalCode string `json:"nationalCode" xml:"nationalCode" gorm:"index,not null"`
 	Passport     string `json:"passport" xml:"passport" gorm:"index,not null"`
