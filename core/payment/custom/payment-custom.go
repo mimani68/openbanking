@@ -10,7 +10,7 @@ import (
 )
 
 func (p *paymentAbstract) PaymentCustom(r *dto.PaymentRequestMeta) {
-	p.Log.Debug("Incoming request for fullfilment was contain data like", map[string]string{
+	p.Log.Debug("Incoming request for fulfillment was contain data like", map[string]string{
 		"amount":      fmt.Sprintf("%v", r.Amount),
 		"destination": fmt.Sprintf("%v", r.DestinationBankCode),
 	})

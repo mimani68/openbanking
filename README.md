@@ -12,7 +12,7 @@ Current initiative engine would be an ingredient of massive economy of financial
 ## 🔭 Features
 
 * Framework agonistic
-* Emphesiz on POST-OOP paradigm in programing
+* Emphasize on POST-OOP paradigm in programming
 * Lots of comments and developer guides for convenient code extending
 * Flow based design
 * Considering custom policy for accessing process
@@ -56,7 +56,7 @@ Current initiative engine would be an ingredient of massive economy of financial
 #### 2.1 - Operations
 
 * settlement order
-* schedual settlement
+* schedule settlement
 * manage withdraw operation
 
 #### 2.2 - Policy
@@ -68,7 +68,7 @@ Current initiative engine would be an ingredient of massive economy of financial
 
 #### 3.1 - Operations
 
-* transaction per account lsit
+* transaction per account list
 * updating status of transaction
 
 ### 4 - Account managment

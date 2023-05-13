@@ -12,7 +12,7 @@ import (
 
 // Adding current payment request to operation queue
 func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentResponse {
-	p.Log.Debug("Incoming request for fullfilment was contain data like", map[string]string{
+	p.Log.Debug("Incoming request for fulfillment was contain data like", map[string]string{
 		"amount":      fmt.Sprintf("%v", r.Amount),
 		"destination": fmt.Sprintf("%v", r.DestinationBankCode),
 	})
@@ -26,16 +26,16 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentRe
 		IfElse("minimum-payment-value-meet", func() bool {
 			p.Log.Debug("Minimum payment limit must meet", map[string]string{
 				"amount":          fmt.Sprintf("%v", r.Amount),
-				"minimum-allowed": fmt.Sprintf("%v", policy.PaymentPolicy.MinumumPayment),
+				"minimum-allowed": fmt.Sprintf("%v", policy.PaymentPolicy.MinimumPayment),
 			})
-			return r.Amount > policy.PaymentPolicy.MinumumPayment
-		}, "maxium-payment-value-meet", "reject-payment").
-		IfElse("maxium-payment-value-meet", func() bool {
+			return r.Amount > policy.PaymentPolicy.MinimumPayment
+		}, "maximum-payment-value-meet", "reject-payment").
+		IfElse("maximum-payment-value-meet", func() bool {
 			p.Log.Debug("Maximum payment limit must meet", map[string]string{
 				"amount":          fmt.Sprintf("%v", r.Amount),
-				"maximum-allowed": fmt.Sprintf("%v", policy.PaymentPolicy.MaxiumPayment),
+				"maximum-allowed": fmt.Sprintf("%v", policy.PaymentPolicy.MaximumPayment),
 			})
-			return r.Amount < policy.PaymentPolicy.MaxiumPayment
+			return r.Amount < policy.PaymentPolicy.MaximumPayment
 		}, "payer-balance-adequacy", "reject-payment").
 		IfElse("payer-balance-adequacy", func() bool {
 			payerBalance := 100
@@ -63,7 +63,7 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentRe
 	paymentFlow.
 		IfElse("is-payment-method-activated", func() bool {
 			payerState := true
-			p.Log.Debug("Payer pay using permited transfer method like SWIFT or SHABA", nil)
+			p.Log.Debug("Payer pay using permitted transfer method like SWIFT or SHABA", nil)
 			return payerState
 		}, "payment-transaction-start", "reject-payment")
 
@@ -100,7 +100,7 @@ func (p *paymentAbstract) PaymentDirect(r *dto.PaymentRequestMeta) dto.PaymentRe
 		paymentLabel := fmt.Sprintf("payment-%s", r.IdempotencyId)
 		q.Add(paymentLabel, r)
 		response = dto.PaymentResponse{
-			Message: "Transaction queued successfuly and will wait for further process",
+			Message: "Transaction queued successfully and will wait for further process",
 			TID:     r.IdempotencyId,
 		}
 	}, "reject-payment")
