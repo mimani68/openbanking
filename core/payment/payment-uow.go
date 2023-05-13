@@ -5,21 +5,21 @@ import (
 	"github.com/mimani68/fintech-core/pkg/uow"
 )
 
+// example:
 //
-// 	example:
+// TID := "jf93n22"
+// trx := PaymentUnitOfWorkGenerator(TID, p.log)
 //
-//	TID := "jf93n22"
-//	trx := PaymentUnitOfWorkGenerator(TID, p.log)
 //	ops := func() bool {
 //		return false
 //	}
+//
 //	rollbackOps := func() bool {
 //		return true
 //	}
-//	trx.Add(ops, rollbackOps)
-//	trx.Commit()
 //
-//
+// trx.Add(ops, rollbackOps)
+// trx.Commit()
 func PaymentUnitOfWorkGenerator(tid string, log log.Ilogger) PaymentUnitOfWork {
 	log.Debug("Transaction Start", map[string]string{
 		"TID": tid,
@@ -46,7 +46,7 @@ type PaymentUnitOfWork struct {
 func (p *PaymentUnitOfWork) Add(cb func(map[string]interface{}) bool, rollback func(map[string]interface{}) bool, params map[string]interface{}) {
 	p.isSuccess = cb(params)
 	if p.isSuccess {
-		p.Log.Debug("Add new ops in transtion", map[string]string{
+		p.Log.Debug("Add new ops in transition", map[string]string{
 			"TID": p.TID,
 		})
 	} else {

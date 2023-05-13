@@ -1,11 +1,11 @@
 package policy
 
 type PaymentPolicyAbstract struct {
-	MinumumPayment int
-	MaxiumPayment  int
+	MinimumPayment int
+	MaximumPayment int
 }
 
 var PaymentPolicy = &PaymentPolicyAbstract{
-	MinumumPayment: 10e3,
-	MaxiumPayment:  10e7,
+	MinimumPayment: 10e3,
+	MaximumPayment: 10e7,
 }
